@@ -16,8 +16,6 @@ type fetchImagesResponse = {
 };
 
 export default function Home(): JSX.Element {
-  const firstCallFunction = true;
-
   const getCardsFaunaDB = useCallback(
     async ({ pageParam = null }): Promise<fetchImagesResponse> => {
       if (pageParam) {
@@ -37,13 +35,16 @@ export default function Home(): JSX.Element {
     []
   );
 
-  const { data, isLoading, isError, fetchNextPage } = useInfiniteQuery(
-    'images',
-    getCardsFaunaDB,
-    {
-      getNextPageParam: lastPage => lastPage.after ?? null,
-    }
-  );
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useInfiniteQuery('images', getCardsFaunaDB, {
+    getNextPageParam: lastPage => lastPage.after ?? null,
+  });
 
   const formattedData = useMemo(() => {
     let formattedDataTotal = [] as Card[];
@@ -70,9 +71,16 @@ export default function Home(): JSX.Element {
       <Header />
       <Box maxW={1120} px={20} mx="auto" my={20}>
         <CardList cards={formattedData} />
-        <Button mt="40px" onClick={() => fetchNextPage()}>
-          Carregar mais
-        </Button>
+        {hasNextPage && (
+          <Button
+            mt="1rem"
+            onClick={() => fetchNextPage()}
+            role="button"
+            w={['100%', 'auto']}
+          >
+            {isFetchingNextPage ? 'Carregando...' : 'Carregar mais'}
+          </Button>
+        )}
       </Box>
     </>
   );

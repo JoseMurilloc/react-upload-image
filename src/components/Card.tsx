@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { useState } from 'react';
 import {
   Box,
@@ -23,8 +24,6 @@ interface CardProps {
 
 export function Card({ data, viewImage }: CardProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(true);
-
-  console.log(data);
 
   return (
     <Box key={data.ts} borderRadius="md" bgColor="pGray.800">
