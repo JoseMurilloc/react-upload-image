@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import AxiosMock from 'axios-mock-adapter';
 
+import { debug } from 'console';
 import Home from '../../pages/index';
 import { theme } from '../../styles/theme';
 import { api } from '../../services/api';
